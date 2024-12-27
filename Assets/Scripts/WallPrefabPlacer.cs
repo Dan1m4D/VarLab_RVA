@@ -18,18 +18,16 @@ public class WallPrefabPlacer : MonoBehaviour
     private Canvas canvas;
     private TextMeshProUGUI uuidText;
     private TextMeshProUGUI savedStatusText;
-    private List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
+    public List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
     private OVRSpatialAnchor lastCreatedAnchor;
     private AnchorLoader anchorLoader;
     private bool isInitialized;
 
     public void Initialize() => isInitialized = true;
 
-    private void Start() => currentPreview = Instantiate(previewPrefab);
-
-
     private void Awake() {
         anchorLoader = GetComponent<AnchorLoader>();
+        currentPreview = Instantiate(previewPrefab);
 
     }
 
@@ -49,7 +47,7 @@ public class WallPrefabPlacer : MonoBehaviour
                
                 // load the preview prefab
                 currentPreview.transform.position = hit.point;
-                currentPreview.transform.rotation = Quaternion.LookRotation(Vector3.up, hit.normal);
+                currentPreview.transform.rotation = Quaternion.LookRotation(hit.normal);
                  
 
                 if (OVRInput.GetDown(triggerButton, OVRInput.Controller.RTouch)) {

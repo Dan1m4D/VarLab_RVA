@@ -5,11 +5,11 @@ using UnityEngine.Events;
 using TMPro;
 using System;
 public class RadialSelection : MonoBehaviour
-{       
+{
 
     public OVRInput.Button spawnButton = OVRInput.Button.Start;
 
-    [Range(2,10)]
+    [Range(2, 10)]
     public int numberofRadialPart;
     public GameObject radialPartPrefab;
     public Transform radialPartCanvas;
@@ -17,12 +17,12 @@ public class RadialSelection : MonoBehaviour
     public Transform handTransform;
 
     public UnityEvent<int> OnPartSelected;
-    
+
     private List<GameObject> spawnedParts = new List<GameObject>();
     private int currentSelectedRadialPart = -1;
-    private readonly List<string> partNames = new()
+    private readonly Dictionary<string, Color> partNames = new()
     {
-        "History", "Projects", "Collaborators", "Settings", "Help", "Part5", "Part6", "Part7", "Part8", "Part9"
+        {"History", Color.blue}, {"Projects", Color.green}, {"Collaborators", Color.yellow}, {"Settings", Color.gray}, {"Help", Color.cyan}
     };
 
 
@@ -35,29 +35,29 @@ public class RadialSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(spawnButton)) 
+        if (OVRInput.GetDown(spawnButton))
         {
             SpawnRadialPart();
         }
 
-        if (OVRInput.Get(spawnButton)) 
+        if (OVRInput.Get(spawnButton))
         {
             GetSelectedRadialPart();
         }
-        
-        if (OVRInput.GetUp(spawnButton)) 
+
+        if (OVRInput.GetUp(spawnButton))
         {
             HideAndTriggerSelected();
         }
     }
 
-    public void HideAndTriggerSelected() 
+    public void HideAndTriggerSelected()
     {
         OnPartSelected.Invoke(currentSelectedRadialPart);
         radialPartCanvas.gameObject.SetActive(false);
     }
 
-    public void GetSelectedRadialPart() 
+    public void GetSelectedRadialPart()
     {
         Vector3 handDirection = handTransform.position - radialPartCanvas.position;
         Vector3 centerToHandProjected = Vector3.ProjectOnPlane(handDirection, radialPartCanvas.forward);
@@ -65,31 +65,36 @@ public class RadialSelection : MonoBehaviour
         float angle = Vector3.SignedAngle(radialPartCanvas.up, centerToHandProjected, -radialPartCanvas.forward);
 
         if (angle < 0)
-            angle += 360;
-
-
-        currentSelectedRadialPart = (int) angle * numberofRadialPart / 360;
-
-        for (int i = 0; i < spawnedParts.Count; i++)
         {
-            if (i == currentSelectedRadialPart)
-            { 
-                spawnedParts[i].GetComponent<Image>().color = Color.red;
-                spawnedParts[i].transform.localScale = 1.1f * Vector3.one;
-            } 
-            else 
+            angle += 360;
+        }
+
+        currentSelectedRadialPart = (int)angle * numberofRadialPart / 360;
+
+        int index = 0;
+        foreach (var part in partNames)
+        {
+            if (index == currentSelectedRadialPart)
             {
-                spawnedParts[i].GetComponent<Image>().color = Color.white;
-                spawnedParts[i].transform.localScale = Vector3.one;
+                spawnedParts[index].GetComponent<Image>().color = partNames[part.Key];
+                spawnedParts[index].transform.localScale = 1.1f * Vector3.one;
+                spawnedParts[index].GetComponentInChildren<TextMeshProUGUI>().text = part.Key;
             }
+            else
+            {
+                spawnedParts[index].GetComponent<Image>().color = Color.white;
+                spawnedParts[index].transform.localScale = Vector3.one;
+                spawnedParts[index].GetComponentInChildren<TextMeshProUGUI>().text = "";
+            }
+            index++;
         }
     }
 
     public void SpawnRadialPart()
-    {   
+    {
 
         radialPartCanvas.gameObject.SetActive(true);
-        radialPartCanvas.position = handTransform.position;
+        radialPartCanvas.position = handTransform.position + handTransform.forward * 0.2f;
         radialPartCanvas.rotation = handTransform.rotation;
 
         foreach (var item in spawnedParts)
@@ -99,16 +104,20 @@ public class RadialSelection : MonoBehaviour
 
         spawnedParts.Clear();
 
-        for (int i = 0; i < numberofRadialPart; i++) 
+        for (int i = 0; i < numberofRadialPart; i++)
         {
-            float angle = - i * 360 / numberofRadialPart - (angleBetweenPart / 2);
+            float angle = -i * 360 / numberofRadialPart - (angleBetweenPart / 2);
             Vector3 radialPartEulerAngle = new Vector3(0, 0, angle);
 
             GameObject spawnedRadialPart = Instantiate(radialPartPrefab, radialPartCanvas);
             spawnedRadialPart.transform.position = radialPartCanvas.position;
             spawnedRadialPart.transform.localEulerAngles = radialPartEulerAngle;
 
-            spawnedRadialPart.GetComponent<Image>().fillAmount = (1 / (float) numberofRadialPart - (angleBetweenPart / 360));
+            spawnedRadialPart.GetComponent<Image>().fillAmount = (1 / (float)numberofRadialPart - (angleBetweenPart / 360));
+
+            // Make text appear in the middle of the radial part
+            spawnedRadialPart.GetComponentInChildren<TextMeshProUGUI>().transform.localEulerAngles = -radialPartEulerAngle;
+
 
             spawnedParts.Add(spawnedRadialPart);
         }
