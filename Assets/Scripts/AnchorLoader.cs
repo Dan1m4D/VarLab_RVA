@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnchorLoader : MonoBehaviour
 {
-    private OVRSpatialAnchor anchorPrefab;
+    public OVRSpatialAnchor anchorPrefab;
+    public const string NumUuidsPlayerPref = "numUuids";
     private WallPrefabPlacer spatialAnchorManager;
 
     Action<OVRSpatialAnchor.UnboundAnchor, bool> _onLoadAnchor;
@@ -21,12 +23,12 @@ public class AnchorLoader : MonoBehaviour
     [Obsolete]
     public void LoadAnchorsByUuid()
     {
-        if (!PlayerPrefs.HasKey(SpatialAnchorManager.NumUuidsPlayerPref))
+        if (!PlayerPrefs.HasKey(NumUuidsPlayerPref))
         {
-            PlayerPrefs.SetInt(SpatialAnchorManager.NumUuidsPlayerPref, 0);
+            PlayerPrefs.SetInt(NumUuidsPlayerPref, 0);
         }
 
-        var playerUuidCount = PlayerPrefs.GetInt(SpatialAnchorManager.NumUuidsPlayerPref);
+        var playerUuidCount = PlayerPrefs.GetInt(NumUuidsPlayerPref);
         if (playerUuidCount == 0)
         {
             return;
@@ -42,7 +44,8 @@ public class AnchorLoader : MonoBehaviour
             uuids[i] = new Guid(currentUuid);
         }
 
-        Load(new OVRSpatialAnchor.LoadOptions{
+        Load(new OVRSpatialAnchor.LoadOptions
+        {
             Timeout = 0,
             StorageLocation = OVRSpace.StorageLocation.Local,
             Uuids = uuids
@@ -87,11 +90,54 @@ public class AnchorLoader : MonoBehaviour
 
         if (spatialAnchor.TryGetComponent<OVRSpatialAnchor>(out var anchor))
         {
-            var uuid = spatialAnchor.GetComponentInChildren<Canvas>().transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            var savedStatusText = spatialAnchor.GetComponentInChildren<Canvas>().transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            var canvas = spatialAnchor.GetComponentInChildren<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("Canvas not found in anchor prefab");
+                return;
+            }
 
-            uuid.text = "Uuid: " + spatialAnchor.Uuid.ToString();
+            if (canvas.transform.childCount < 3)
+            {
+                Debug.LogError($"Expected 3 children in canvas, found {canvas.transform.childCount}");
+                return;
+            }
+
+            var uuidText = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            var savedStatusText = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            var wallImage = canvas.transform.GetChild(2).GetComponent<Image>();
+
+            if (uuidText == null || savedStatusText == null || wallImage == null)
+            {
+                Debug.LogError("One or more UI components not found in anchor prefab");
+                return;
+            }
+
+            uuidText.text = "Uuid: " + spatialAnchor.Uuid.ToString();
             savedStatusText.text = "Loaded from Device";
+
+            // Load the saved index for the image and description
+            int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);
+            for (int i = 0; i < playerNumUuids; i++)
+            {
+                string uuidString = PlayerPrefs.GetString("uuid" + i);
+                if (uuidString == spatialAnchor.Uuid.ToString())
+                {
+                    int index = PlayerPrefs.GetInt("index" + i);
+                    // Assuming you have access to the lists of images and descriptions
+                    var wallPrefabPlacer = FindObjectOfType<WallPrefabPlacer>();
+                    if (wallPrefabPlacer != null && index < wallPrefabPlacer.images.Count && index < wallPrefabPlacer.descriptions.Count)
+                    {
+                        wallImage.sprite = wallPrefabPlacer.images[index];
+                        uuidText.text = wallPrefabPlacer.descriptions[index];
+                    }
+                    else
+                    {
+                        Debug.LogError("Invalid index or WallPrefabPlacer not found");
+                    }
+                    break;
+                }
+            }
         }
     }
 }

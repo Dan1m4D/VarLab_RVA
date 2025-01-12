@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpatialAnchorManager : MonoBehaviour
 {
@@ -13,13 +14,18 @@ public class SpatialAnchorManager : MonoBehaviour
     public OVRInput.Button triggerButton;
     public Transform controllerTransform;
 
+    public List<Sprite> images;
+    public List<string> descriptions;
+
     private Canvas canvas;
     private TextMeshProUGUI uuidText;
     private TextMeshProUGUI savedStatusText;
+    private Image anchorImage;
+    private TextMeshProUGUI descriptionText;
     private List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
     private OVRSpatialAnchor lastCreatedAnchor;
     private AnchorLoader anchorLoader;
-
+    private int currentIndex = 0;
 
     private void Awake() {
         anchorLoader = GetComponent<AnchorLoader>();
@@ -42,6 +48,12 @@ public class SpatialAnchorManager : MonoBehaviour
         if(OVRInput.GetDown(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.RTouch)) {
             LoadSavedAnchors();
         }
+        if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x > 0.5f) {
+            NextImageAndDescription();
+        }
+        if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x < -0.5f) {
+            PreviousImageAndDescription();
+        }
     }
 
     public void CreateSpatialAnchor() {
@@ -50,6 +62,8 @@ public class SpatialAnchorManager : MonoBehaviour
         canvas = workingAnchor.gameObject.GetComponentInChildren<Canvas>();
         uuidText = canvas.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         savedStatusText = canvas.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        anchorImage = canvas.gameObject.transform.GetChild(2).GetComponent<Image>();
+        descriptionText = canvas.gameObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
 
         StartCoroutine(AnchorCreated(workingAnchor));
     }
@@ -65,6 +79,7 @@ public class SpatialAnchorManager : MonoBehaviour
 
         uuidText.text = "Uuid: " + anchorUuid.ToString();
         savedStatusText.text = "Not saved";
+        UpdateImageAndDescription();
     }
 
     private void SaveLastCreatedAnchor() {
@@ -134,5 +149,20 @@ public class SpatialAnchorManager : MonoBehaviour
         anchorLoader.LoadAnchorsByUuid();
     }
 
+    private void NextImageAndDescription() {
+        currentIndex = (currentIndex + 1) % images.Count;
+        UpdateImageAndDescription();
+    }
 
+    private void PreviousImageAndDescription() {
+        currentIndex = (currentIndex - 1 + images.Count) % images.Count;
+        UpdateImageAndDescription();
+    }
+
+    private void UpdateImageAndDescription() {
+        if (anchorImage != null && descriptionText != null) {
+            anchorImage.sprite = images[currentIndex];
+            descriptionText.text = descriptions[currentIndex];
+        }
+    }
 }
