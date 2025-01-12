@@ -19,8 +19,9 @@ public class WallPrefabPlacer : MonoBehaviour
     public OVRInput.Button previousButton;
 
     private Canvas canvas;
-    private TextMeshProUGUI uuidText;
     private TextMeshProUGUI savedStatusText;
+    private TextMeshProUGUI descriptionText;
+    private Image wallImage;
     public List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
     private OVRSpatialAnchor lastCreatedAnchor;
     private AnchorLoader anchorLoader;
@@ -29,8 +30,6 @@ public class WallPrefabPlacer : MonoBehaviour
     public List<Sprite> images;
     public List<string> descriptions;
 
-    private Image wallImage;
-    private TextMeshProUGUI descriptionText;
     private int currentIndex = 0;
 
     public void Initialize() => isInitialized = true;
@@ -105,8 +104,8 @@ public class WallPrefabPlacer : MonoBehaviour
         OVRSpatialAnchor workingAnchor = Instantiate(anchorPrefab, position, rotation);
 
         canvas = workingAnchor.gameObject.GetComponentInChildren<Canvas>();
-        uuidText = canvas.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        savedStatusText = canvas.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        savedStatusText = canvas.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        descriptionText = canvas.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         wallImage = canvas.gameObject.transform.GetChild(2).GetComponent<Image>();
 
         StartCoroutine(AnchorCreated(workingAnchor));
@@ -123,7 +122,7 @@ public class WallPrefabPlacer : MonoBehaviour
         anchors.Add(workingAnchor);
         lastCreatedAnchor = workingAnchor;
 
-        uuidText.text = "Uuid: " + anchorUuid.ToString();
+        descriptionText.text = "Description";
         savedStatusText.text = "Not saved";
     }
 
@@ -186,7 +185,7 @@ public class WallPrefabPlacer : MonoBehaviour
                 var textComponents = anchor.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
                 if (textComponents.Length > 1)
                 {
-                    textComponents[1].text = "Not saved";
+                    textComponents[0].text = "Not saved";
                 }
             }
         });
@@ -246,11 +245,11 @@ public class WallPrefabPlacer : MonoBehaviour
         {
             Debug.Log("Description text is null");
         }
-        if (wallImage != null)
+        if (wallImage != null && descriptionText != null)
         {
-
+            Debug.Log("Wall image and description text are not null");
             wallImage.sprite = images[currentIndex];
-            uuidText.text = descriptions[currentIndex];
+            descriptionText.text = descriptions[currentIndex];
         }
         else
         {

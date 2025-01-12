@@ -103,17 +103,17 @@ public class AnchorLoader : MonoBehaviour
                 return;
             }
 
-            var uuidText = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            var savedStatusText = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            var savedStatusText = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            var descriptionText = canvas.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             var wallImage = canvas.transform.GetChild(2).GetComponent<Image>();
 
-            if (uuidText == null || savedStatusText == null || wallImage == null)
+            if (descriptionText == null || savedStatusText == null || wallImage == null)
             {
                 Debug.LogError("One or more UI components not found in anchor prefab");
                 return;
             }
 
-            uuidText.text = "Uuid: " + spatialAnchor.Uuid.ToString();
+            descriptionText.text = "Uuid: " + spatialAnchor.Uuid.ToString();
             savedStatusText.text = "Loaded from Device";
 
             // Load the saved index for the image and description
@@ -129,7 +129,7 @@ public class AnchorLoader : MonoBehaviour
                     if (wallPrefabPlacer != null && index < wallPrefabPlacer.images.Count && index < wallPrefabPlacer.descriptions.Count)
                     {
                         wallImage.sprite = wallPrefabPlacer.images[index];
-                        uuidText.text = wallPrefabPlacer.descriptions[index];
+                        descriptionText.text = wallPrefabPlacer.descriptions[index];
                     }
                     else
                     {
