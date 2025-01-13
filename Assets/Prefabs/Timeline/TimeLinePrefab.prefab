@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1019129930735292577}
   - component: {fileID: 5553392985982997067}
   - component: {fileID: 5209633422222730062}
-  - component: {fileID: 2642804728747644402}
   m_Layer: 0
   m_Name: TimeLinePrefab
   m_TagString: Untagged
@@ -106,36 +105,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2642804728747644402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5362654145560609257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c9e9a1ce5db7342af474310c8ec414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeLineLength: 2
-  timelineThickness: 0.05
-  markerHeight: 0.1
-  events:
-  - date: 13 Ago 2013
-    title: Ganda foda-se
-    description: Biggest foda-se ever
-    image: {fileID: 21300000, guid: 6716cc5c10f0c63418b3070cfa76ab8e, type: 3}
-  - date: 13 Ago 2013
-    title: Ganda foda-se
-    description: Biggest foda-se ever
-    image: {fileID: 21300000, guid: 6716cc5c10f0c63418b3070cfa76ab8e, type: 3}
-  - date: 13 Ago 2013
-    title: Ganda foda-se
-    description: Biggest foda-se ever
-    image: {fileID: 21300000, guid: 6716cc5c10f0c63418b3070cfa76ab8e, type: 3}
-  - date: 13 Ago 2013
-    title: Ganda foda-se
-    description: Biggest foda-se ever
-    image: {fileID: 21300000, guid: 6716cc5c10f0c63418b3070cfa76ab8e, type: 3}
-  cardPrefab: {fileID: 1672431490167295426, guid: 727791df247ade9429f1703aaec2be6d, type: 3}
