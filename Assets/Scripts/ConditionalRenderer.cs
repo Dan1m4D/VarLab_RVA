@@ -14,5 +14,6 @@ public class ConditionalRenderer : MonoBehaviour
             obj.SetActive(false);
         }
         objectsToRender[i].SetActive(true);
+        
     }
 }

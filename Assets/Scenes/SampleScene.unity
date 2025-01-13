@@ -2843,7 +2843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToRender:
   - {fileID: 65284393}
-  - {fileID: 1376155797}
+  - {fileID: 2019041125}
   - {fileID: 1376155797}
 --- !u!4 &223974228
 Transform:
@@ -17492,10 +17492,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageButtonPrefab: {fileID: 0}
-  contentPanel: {fileID: 469159761}
-  descriptionField: {fileID: 976508333}
-  applyButton: {fileID: 1660552379}
-  imageDatabase: {fileID: 40919615}
+  contentPanel: {fileID: 0}
+  descriptionField: {fileID: 0}
+  applyButton: {fileID: 0}
+  imageDatabase: {fileID: 0}
 --- !u!4 &1523394702
 Transform:
   m_ObjectHideFlags: 0
@@ -17508,8 +17508,7 @@ Transform:
   m_LocalPosition: {x: 0.35378462, y: 0.95592386, z: 3.816991}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 438371214}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1527874701
@@ -23061,6 +23060,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05ac789cd418e3d48a1dd6561fdef2e5, type: 3}
+--- !u!1 &2019041125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5362654145560609257, guid: 05ac789cd418e3d48a1dd6561fdef2e5, type: 3}
+  m_PrefabInstance: {fileID: 2019041124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2019869701
 GameObject:
   m_ObjectHideFlags: 0
@@ -25141,6 +25145,5 @@ SceneRoots:
   - {fileID: 1828601335}
   - {fileID: 1376155800}
   - {fileID: 223974228}
-  - {fileID: 40919616}
   - {fileID: 1523394702}
   - {fileID: 2019041124}
