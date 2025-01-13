@@ -1,19 +1,75 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ConditionalRenderer : MonoBehaviour
 {
-    // Script to handle the rendering of 5 objects based on the selected part
     public List<GameObject> objectsToRender;
 
     public void SetObject(int i)
     {
-        foreach (GameObject obj in objectsToRender)
+        for (int index = 0; index < objectsToRender.Count; index++)
         {
-            obj.SetActive(false);
+            objectsToRender[index].SetActive(false);
+
+            // Hide associated elements (anchors, markers, cards)
+            HideAssociatedElements(objectsToRender[index]);
         }
+
         objectsToRender[i].SetActive(true);
-        
+
+        // Show associated elements (anchors, markers, cards)
+        ShowAssociatedElements(objectsToRender[i]);
+    }
+
+    private void HideAssociatedElements(GameObject obj)
+    {
+        WallPrefabPlacer wallManager = obj.GetComponent<WallPrefabPlacer>();
+        if (wallManager != null)
+        {
+            foreach (var anchor in wallManager.GetAnchors())
+            {
+                anchor.gameObject.SetActive(false);
+            }
+        }
+
+        TimeLineCreator timelineCreator = obj.GetComponent<TimeLineCreator>();
+        if (timelineCreator != null)
+        {
+            foreach (var marker in timelineCreator.GetMarkers())
+            {
+                marker.SetActive(false);
+            }
+
+            foreach (var card in timelineCreator.GetCards())
+            {
+                card.SetActive(false);
+            }
+        }
+    }
+
+    private void ShowAssociatedElements(GameObject obj)
+    {
+        WallPrefabPlacer wallManager = obj.GetComponent<WallPrefabPlacer>();
+        if (wallManager != null)
+        {
+            foreach (var anchor in wallManager.GetAnchors())
+            {
+                anchor.gameObject.SetActive(true);
+            }
+        }
+
+        TimeLineCreator timelineCreator = obj.GetComponent<TimeLineCreator>();
+        if (timelineCreator != null)
+        {
+            foreach (var marker in timelineCreator.GetMarkers())
+            {
+                marker.SetActive(true);
+            }
+
+            foreach (var card in timelineCreator.GetCards())
+            {
+                card.SetActive(true);
+            }
+        }
     }
 }
