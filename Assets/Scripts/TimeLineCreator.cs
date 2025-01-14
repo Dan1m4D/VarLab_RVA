@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Meta.XR.MRUtilityKit;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class TimelineData
@@ -27,29 +28,24 @@ public class TimeLineCreator : MonoBehaviour
     public List<TimeLineEvent> events;
     public GameObject cardPrefab;
     public GameObject timelinePrefab;
-    public GameObject previewPrefab;
     public OVRInput.Button triggerButton;
     public Transform controllerTransform;
 
     private float spacingBetweenMarker = 0.5f;
-    private GameObject previewObject;
-    private bool isPreviewVisible = false;
     private GameObject activeTimeline;
+    private GameObject startingSphere;
+
+    private List<GameObject> markers = new List<GameObject>();
+    private List<GameObject> cards = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         if (LoadTimelineData(out TimelineData loadedData))
         {
             activeTimeline = Instantiate(timelinePrefab, loadedData.position, loadedData.rotation);
             events = loadedData.events;
             CreateTimeLine(activeTimeline, loadedData.rotation);
-        }
-
-        if (previewPrefab != null)
-        {
-            previewObject = Instantiate(previewPrefab);
-            previewObject.SetActive(false);
         }
     }
 
@@ -70,31 +66,7 @@ public class TimeLineCreator : MonoBehaviour
 
         if (MRUK.Instance?.GetCurrentRoom()?.Raycast(ray, Mathf.Infinity, out RaycastHit hit, out MRUKAnchor anchorHit) == true)
         {
-            if (OVRInput.GetDown(triggerButton, OVRInput.Controller.RTouch))
-            {
-                previewObject.transform.position = hit.point;
-                previewObject.transform.rotation = Quaternion.LookRotation(hit.normal);
-
-                if (!isPreviewVisible)
-                {
-                    previewObject.SetActive(true);
-                    isPreviewVisible = true;
-                }
-
-                // Place the timeline prefab when the trigger button is pressed
-                if (OVRInput.GetDown(triggerButton, OVRInput.Controller.RTouch))
-                {
-                    PlaceTimeline(hit.point, hit.normal);
-                }
-            }
-        }
-        else
-        {
-            if (isPreviewVisible)
-            {
-                previewObject.SetActive(false);
-                isPreviewVisible = false;
-            }
+            if (OVRInput.GetDown(triggerButton, OVRInput.Controller.RTouch)) PlaceTimeline(hit.point, hit.normal);
         }
     }
 
@@ -129,24 +101,30 @@ public class TimeLineCreator : MonoBehaviour
         if (timelinePrefab == null) return;
 
         if (activeTimeline != null)
-        {
+        {   
             Destroy(activeTimeline);
+
+            foreach (GameObject marker in markers) Destroy(marker);
+            foreach (GameObject card in cards) Destroy(card);
+            if (startingSphere != null) Destroy(startingSphere);
+
+            markers.Clear();
+            cards.Clear();
+
+            // Delete the saved timeline data
+            PlayerPrefs.DeleteKey("SavedTimeline");
         }
 
         // Instantiate the timeline at the position with the correct orientation
         Quaternion rotation = Quaternion.LookRotation(-normal);
-        GameObject newTimeline = Instantiate(timelinePrefab, position, rotation);
+        activeTimeline = Instantiate(timelinePrefab, position, rotation);
 
         SaveTimelineData(
-            position: position, 
+            position: position,
             rotation: rotation
         );
 
-        CreateTimeLine(timeline: newTimeline, rotation: rotation);
-
-        // Hide the preview after placement
-        previewObject.SetActive(false);
-        isPreviewVisible = false;
+        CreateTimeLine(timeline: activeTimeline, rotation: rotation);
     }
 
 
@@ -167,25 +145,24 @@ public class TimeLineCreator : MonoBehaviour
         Vector3 timelineStartPosition = timeline.transform.position - timeline.transform.right * (totalLength / 2f);
 
         // Create the initial sphere
-        GameObject startSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        startSphere.transform.localScale = new Vector3(timelineThickness, timelineThickness, timelineThickness);
+        startingSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        startingSphere.transform.localScale = new Vector3(timelineThickness * 3, timelineThickness * 3, timelineThickness * 3);
 
         Vector3 spherePosition = timelineStartPosition;
         spherePosition += transform.right * (timelineThickness / 2f);
-        startSphere.transform.position = spherePosition;
-        startSphere.transform.SetParent(transform);
+        startingSphere.transform.position = spherePosition;
+        startingSphere.transform.SetParent(transform);
 
-        // Change the sphere's color to match the timeline
-        Renderer startSphereRenderer = startSphere.GetComponent<Renderer>();
+        Renderer startSphereRenderer = startingSphere.GetComponent<Renderer>();
         if (startSphereRenderer != null)
         {
-            startSphereRenderer.material.color = timelineColor;
+            startSphereRenderer.material.color = timelineColor; // Set the sphere's color
         }
 
         // Scale the timeline to match its calculated length
         timeline.transform.localScale = new Vector3(totalLength, timelineThickness, timelineThickness);
 
-        bool isUpwards = true;
+        bool isUpwards = true; // Alternate marker placement above and below the timeline
 
         for (int i = 0; i < events.Count; i++)
         {
@@ -202,26 +179,29 @@ public class TimeLineCreator : MonoBehaviour
             Vector3 direction = isUpwards ? timeline.transform.up : -timeline.transform.up;
             markerPosition += direction * (timeline.transform.localScale.y / 2f + markerHeight / 2f);
 
-            CreateMarker(
+            GameObject marker = CreateMarker(
                 position: markerPosition,
                 direction: direction,
                 date: currentEvent.date,
                 timelineColor: timelineColor,
                 rotation: rotation
             );
+            markers.Add(marker);
 
+            // Create card and add it to the cards list
             Vector3 cardPosition = markerPosition + direction * 0.25f;
-            CreateCard(
+            GameObject card = CreateCard(
                 timeLineEvent: currentEvent,
                 cardPosition: cardPosition,
                 rotation: rotation
             );
+            cards.Add(card);
 
-            isUpwards = !isUpwards;
+            isUpwards = !isUpwards; // Alternate the direction for the next marker
         }
     }
 
-    private void CreateMarker(Vector3 position, Vector3 direction, string date, Color timelineColor, Quaternion rotation)
+    private GameObject CreateMarker(Vector3 position, Vector3 direction, string date, Color timelineColor, Quaternion rotation)
     {
         GameObject marker = GameObject.CreatePrimitive(PrimitiveType.Cube);
         marker.transform.position = position;
@@ -235,14 +215,15 @@ public class TimeLineCreator : MonoBehaviour
             direction: direction,
             rotation: rotation
         );
-        
+
         Renderer markRenderer = marker.GetComponent<Renderer>();
         if (markRenderer != null)
         {
-            markRenderer.material.color = timelineColor;
+            markRenderer.material.color = timelineColor; // Set marker color
         }
 
         marker.name = "Marker " + date;
+        return marker;
     }
 
     void CreateDateText(string date, GameObject marker, Vector3 direction, Quaternion rotation)
@@ -250,53 +231,72 @@ public class TimeLineCreator : MonoBehaviour
         GameObject dateObject = new GameObject("Date");
         dateObject.transform.SetParent(marker.transform);
 
-        // Calculate the position for the date text
         Vector3 datePosition = marker.transform.position - direction * markerHeight * 2;
         dateObject.transform.position = datePosition;
         dateObject.transform.rotation = rotation;
 
-        // Add the date text
         TextMeshPro text = dateObject.AddComponent<TextMeshPro>();
         text.text = date;
         text.fontSize = 0.5f;
         text.alignment = TextAlignmentOptions.Center;
         text.color = Color.black;
-
     }
 
-    void CreateCard(TimeLineEvent timeLineEvent, Vector3 cardPosition, Quaternion rotation)
+    GameObject CreateCard(TimeLineEvent timeLineEvent, Vector3 cardPosition, Quaternion rotation)
     {
         GameObject card = Instantiate(cardPrefab, cardPosition, Quaternion.identity);
 
         RectTransform canvasRect = card.GetComponentInChildren<Canvas>().GetComponent<RectTransform>();
         if (canvasRect != null)
         {
-            canvasRect.sizeDelta = new Vector2(120, 120);
-        }   
+            canvasRect.sizeDelta = new Vector2(140, 140); // Set the canvas size
+        }
 
         card.transform.position = cardPosition;
         card.transform.rotation = rotation;
 
-        Transform panel = card.transform.Find("CardCanvas/CardPanel");
-        if (panel != null)
+        Canvas canvas = card.GetComponentInChildren<Canvas>();
+        
+        Image cardImage = canvas.gameObject.transform.GetChild(0).GetChild(1).GetComponent<Image>();
+        if (cardImage != null)
         {
-            UnityEngine.UI.Image cardImage = panel.Find("Image").GetComponent<UnityEngine.UI.Image>();
-            if (cardImage != null)
-            {
-                cardImage.sprite = timeLineEvent.image;
-            }
-
-            TextMeshPro cardTitle = panel.Find("Title").GetComponent<TextMeshPro>();
-            if (cardTitle != null)
-            {
-                cardTitle.text = timeLineEvent.title;
-            }
-
-            TextMeshPro cardDescription = panel.Find("Description").GetComponent<TextMeshPro>();
-            if (cardDescription != null)
-            {
-                cardDescription.text = timeLineEvent.description;
-            }
+            cardImage.sprite = timeLineEvent.image; // Set the card image
         }
+
+        TextMeshProUGUI titleText = canvas.gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        if (titleText != null)
+        {
+            titleText.text = timeLineEvent.title; // Set the card title
+        }
+
+        TextMeshProUGUI descriptionText = canvas.gameObject.transform.GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>();
+        if (descriptionText != null)
+        {
+            descriptionText.text = timeLineEvent.description; // Set the card description
+        }
+
+        return card;
+    }
+
+    // Public method to get the list of markers
+    public List<GameObject> GetMarkers()
+    {
+        return markers;
+    }
+
+    // Public method to get the list of cards
+    public List<GameObject> GetCards()
+    {
+        return cards;
+    }
+
+    public GameObject GetStartingSphere()
+    {
+        return startingSphere;
+    }
+
+    public GameObject GetActiveTimeline()
+    {
+        return activeTimeline;
     }
 }

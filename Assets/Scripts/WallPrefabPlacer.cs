@@ -126,6 +126,11 @@ public class WallPrefabPlacer : MonoBehaviour
         savedStatusText.text = "Not saved";
     }
 
+    public List<OVRSpatialAnchor> GetAnchors()
+    {
+        return anchors;
+    }
+
     private void SaveLastCreatedAnchor()
     {
         lastCreatedAnchor.Save((lastCreatedAnchor, success) =>
