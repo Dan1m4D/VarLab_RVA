@@ -2838,8 +2838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectsToRender:
   - {fileID: 5904038783809603586}
-  - {fileID: 8822618203053959484}
   - {fileID: 1852364945}
+  - {fileID: 8822618203053959484}
 --- !u!4 &223974228
 Transform:
   m_ObjectHideFlags: 0
@@ -24818,6 +24818,30 @@ PrefabInstance:
       propertyPath: controllerTransform
       value: 
       objectReference: {fileID: 706693965}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: images.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e98f527a7df7144e963bb42108489ef, type: 3}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: images.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 35c09e8e98101fc49ad66d4c0d9401d9, type: 3}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: images.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: dba644add2ad8a04ab6afa9f1cf7a6ce, type: 3}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: descriptions.Array.data[0]
+      value: Quest Pro
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: descriptions.Array.data[1]
+      value: Quest 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851606029350944316, guid: 870ddf53e921d5048b1db643ad00324e, type: 3}
+      propertyPath: descriptions.Array.data[2]
+      value: Quest 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24879,6 +24903,53 @@ PrefabInstance:
       propertyPath: controllerTransform
       value: 
       objectReference: {fileID: 706693965}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: images.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 08844c92ed7ca984f835033042412125, type: 3}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: images.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 081774027504cd342adfaf99abf78173, type: 3}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: images.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: da293802e3416bf418631f3b80c5e2da, type: 3}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: images.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 96d0866af4f0bad4596b92bddb115e32, type: 3}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: descriptions.Array.data[0]
+      value: "Desenvolver tecnologias relevantes que tornem os locais de trabalho
+        na ind\xFAstria mais atraentes; Otimizar a defini\xE7\xE3o das tarefas de
+        trabalho de forma a minimizar ou eliminar os problemas de sa\xFAde, melhorando
+        a ergonomia; Desenvolver tecnologia ara o novo paradigma da digitaliza\xE7\xE3o;
+        Usar ferramentas inteligentes para medir promover o desempenho, a motiva\xE7\xE3o
+        e a valoriza\xE7\xE3o dos colaboradores;"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: descriptions.Array.data[1]
+      value: "O EduPARK \xE9 um projeto de investiga\xE7\xE3o e desenvolvimento,
+        com in\xEDcio em junho de 2016, cujo laborat\xF3rio educativo \xE9 um espa\xE7o
+        ajardinado, de grande valor est\xE9tico, biol\xF3gico, paisag\xEDstico e
+        hist\xF3rico \u2013 o Parque Infante D. Pedro."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: descriptions.Array.data[2]
+      value: "A Agenda ILLIANCE endere\xE7a a neutralidade carb\xF3nica associada
+        ao setor dos edif\xEDcios, atrav\xE9s da conce\xE7\xE3o, desenvolvimento
+        e industrializa\xE7\xE3o de tecnologias complementares, associadas a 3 pilares
+        fundamentais: sa\xFAde, conforto e sustentabilidade."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131369547810084628, guid: 584c2a62d96365e4499b95013f29c9da, type: 3}
+      propertyPath: descriptions.Array.data[3]
+      value: "O programa mobilizador PRODUTECH SIF \u2013 Solu\xE7\xF5es para a Ind\xFAstria
+        de Futuro visa constituir-se numa resposta integrada para o desenvolvimento
+        e edifica\xE7\xE3o de novos sistemas de produ\xE7\xE3o, assentes em tecnologias
+        de produ\xE7\xE3o avan\xE7adas, que permitam equipar a ind\xFAstria transformadora
+        face os desafios da 4\xAA revolu\xE7\xE3o industrial."
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24942,9 +25013,105 @@ PrefabInstance:
       value: 8192
       objectReference: {fileID: 0}
     - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
       propertyPath: controllerTransform
       value: 
       objectReference: {fileID: 706693965}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[0].date
+      value: September 26,  2024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[1].date
+      value: October 14,  2024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[2].date
+      value: October 25,  2024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[3].date
+      value: November 4,  2024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[4].date
+      value: December 6,  2024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[0].image
+      value: 
+      objectReference: {fileID: 21300000, guid: 2369c873e28f720479f36d60d2a3beb1, type: 3}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[0].title
+      value: Visit from FCT
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[1].image
+      value: 
+      objectReference: {fileID: 21300000, guid: f8f3323688c42ca4185599912bab0134, type: 3}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[1].title
+      value: Advanced Human-Machine interaction class
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[2].image
+      value: 
+      objectReference: {fileID: 21300000, guid: 7a8b5252725a75345ac70bf838181e86, type: 3}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[2].title
+      value: Professor's Bernardo Presentation
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[3].image
+      value: 
+      objectReference: {fileID: 21300000, guid: 668b0dfab63d5864d8588f12e14aa5b5, type: 3}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[3].title
+      value: New topic in the new class
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[4].image
+      value: 
+      objectReference: {fileID: 21300000, guid: 16df06a211302c747948edd1bd82d003, type: 3}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[4].title
+      value: PHD student presents his work
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[0].description
+      value: 'Our research unit IEETA, was visited by a panel of members from FCT,
+        currently conducting its assessment. During this period, the VAR Lab was
+        represented, showcasing briefly what we do and what is our contribution. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[1].description
+      value: 'This week, Professors Samuel and Bernardo started to teach a topic
+        to Computer Science PhD Students (MAPi) from DETI, entitled: ''Advanced Human-Machine
+        interaction'', which will extend until January and cover topics like Human-Centered
+        Design, Human Factors, Multimodal Interaction, eXtended Reality, and Collaborative
+        Scenarios, among other relevant topics.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[2].description
+      value: 'Professor Bernardo Marques presented the work: "Aisle by Aisle: A Virtual
+        Reality Experience for Stroke Survivors Upper-Limb Recovery through Simulated
+        Shopping" at the Portuguese Conference on Pattern Recognition, RECPAD 2024.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[3].description
+      value: 'This week, Professor Bernardo started to lecture on the topic of eXtended
+        Reality in the scope of the ''Advanced Human-Machine interaction'', to Computer
+        Science PhD Students (MAPi) from DETI '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5872957108431935098, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
+      propertyPath: events.Array.data[4].description
+      value: "PhD Student S\xE9rgio Oliveira presented the work: \"Rebuilding skills
+        through Collaborative Virtual Reality Drawing: A New Path for Stroke Recovery\"
+        at the International Conference on Intelligent Reality, ICIR 2024."
+      objectReference: {fileID: 0}
     - target: {fileID: 8101850834606749554, guid: f5da5c51eaca3cd449a4b6d936f02949, type: 3}
       propertyPath: m_Name
       value: TimeLineSpawner

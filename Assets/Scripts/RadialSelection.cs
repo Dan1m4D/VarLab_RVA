@@ -22,7 +22,7 @@ public class RadialSelection : MonoBehaviour
     private int currentSelectedRadialPart = -1;
     private readonly Dictionary<string, Color> partNames = new()
     {
-        {"History", Color.blue}, {"Projects", Color.green}, {"Collaborators", Color.yellow}, {"Settings", Color.gray}, {"Help", Color.cyan}
+        {"Projects", Color.blue}, {"History", Color.green}, {"Equipment", Color.yellow}, {"Settings", Color.gray}, {"Help", Color.cyan}
     };
 
 

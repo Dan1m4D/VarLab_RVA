@@ -47,6 +47,7 @@ public class TimeLineCreator : MonoBehaviour
             events = loadedData.events;
             CreateTimeLine(activeTimeline, loadedData.rotation);
         }
+
     }
 
     // Update is called once per frame
@@ -249,7 +250,7 @@ public class TimeLineCreator : MonoBehaviour
         RectTransform canvasRect = card.GetComponentInChildren<Canvas>().GetComponent<RectTransform>();
         if (canvasRect != null)
         {
-            canvasRect.sizeDelta = new Vector2(140, 140); // Set the canvas size
+            canvasRect.sizeDelta = new Vector2(160, 160); // Set the canvas size
         }
 
         card.transform.position = cardPosition;
@@ -257,7 +258,7 @@ public class TimeLineCreator : MonoBehaviour
 
         Canvas canvas = card.GetComponentInChildren<Canvas>();
         
-        Image cardImage = canvas.gameObject.transform.GetChild(0).GetChild(1).GetComponent<Image>();
+        Image cardImage = canvas.gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         if (cardImage != null)
         {
             cardImage.sprite = timeLineEvent.image; // Set the card image
