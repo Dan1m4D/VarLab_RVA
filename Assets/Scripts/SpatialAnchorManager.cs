@@ -241,4 +241,9 @@ public class SpatialAnchorManager : MonoBehaviour
             Debug.LogError("Anchor image or description text is null");
         }
     }
+
+    public List<OVRSpatialAnchor> GetAnchors()
+    {
+        return anchors;
+    }
 }

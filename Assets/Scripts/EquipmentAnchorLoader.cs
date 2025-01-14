@@ -13,6 +13,7 @@ public class EquipmentAnchorLoader : MonoBehaviour
 
     Action<OVRSpatialAnchor.UnboundAnchor, bool> _onLoadAnchor;
 
+
     private void Awake()
     {
         spatialAnchorManager = GetComponent<SpatialAnchorManager>();
@@ -112,7 +113,7 @@ public class EquipmentAnchorLoader : MonoBehaviour
             }
 
             descriptionText.text = "Uuid: " + spatialAnchor.Uuid.ToString();
-            savedStatusText.text = "Loaded from Device";
+            savedStatusText.text = "";
 
             // Load the saved index for the image and description
             int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);

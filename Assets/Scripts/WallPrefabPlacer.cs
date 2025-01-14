@@ -40,6 +40,8 @@ public class WallPrefabPlacer : MonoBehaviour
     {
         anchorLoader = GetComponent<AnchorLoader>();
         currentPreview = Instantiate(previewPrefab);
+
+        Initialize();
     }
 
     void Update()

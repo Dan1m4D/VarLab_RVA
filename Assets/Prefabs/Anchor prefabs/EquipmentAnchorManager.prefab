@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3686138378715041940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1813588735975635767}
+  - component: {fileID: 3857898472780107309}
+  - component: {fileID: 5851606029350944316}
+  m_Layer: 0
+  m_Name: EquipmentAnchorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1813588735975635767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3686138378715041940}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3085506, y: -2.1236916, z: -8.957284}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3857898472780107309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3686138378715041940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edae708d52132494d912edbecc8040f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorPrefab: {fileID: 8742057857418836763, guid: ae8fe4849e31fa94c85aa68f61c632fa, type: 3}
+--- !u!114 &5851606029350944316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3686138378715041940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e847f393832f1ff4ab85a72ad5b7c6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorPrefab: {fileID: 8742057857418836763, guid: ae8fe4849e31fa94c85aa68f61c632fa, type: 3}
+  images:
+  - {fileID: 21300000, guid: 56dc1e9f070d4ca4bbbc03e865b0a7d0, type: 3}
+  - {fileID: 21300000, guid: 32c43deb8405fd841af65afaf9ba00a9, type: 3}
+  - {fileID: 21300000, guid: 413e43d5d27a59f4babe771b84daa69c, type: 3}
+  descriptions:
+  - REVOLUTION
+  - PIPEBOMB
+  - DA POLICE
+  triggerButton: 8192
+  controllerTransform: {fileID: 0}
+  controller: 2
+  nextButton: 524288
+  previousButton: 262144

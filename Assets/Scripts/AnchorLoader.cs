@@ -114,7 +114,7 @@ public class AnchorLoader : MonoBehaviour
             }
 
             descriptionText.text = "Uuid: " + spatialAnchor.Uuid.ToString();
-            savedStatusText.text = "Loaded from Device";
+            savedStatusText.text = "";
 
             // Load the saved index for the image and description
             int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);
