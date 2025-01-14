@@ -10,66 +10,114 @@ public class SpatialAnchorManager : MonoBehaviour
 {
 
     public OVRSpatialAnchor anchorPrefab;
-    public const string NumUuidsPlayerPref = "numUuids";
-    public OVRInput.Button triggerButton;
-    public Transform controllerTransform;
+    public const string NumUuidsPlayerPref = "equipmentNumUuids";
 
     public List<Sprite> images;
     public List<string> descriptions;
 
+    public OVRInput.Button triggerButton;
+    public Transform controllerTransform;
+    public OVRInput.Controller controller;
+    public OVRInput.Button nextButton;
+    public OVRInput.Button previousButton;
+
     private Canvas canvas;
-    private TextMeshProUGUI uuidText;
     private TextMeshProUGUI savedStatusText;
+    private TextMeshProUGUI nameText;
     private Image anchorImage;
-    private TextMeshProUGUI descriptionText;
+
     private List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
     private OVRSpatialAnchor lastCreatedAnchor;
-    private AnchorLoader anchorLoader;
+    private EquipmentAnchorLoader anchorLoader;
+    private bool isInitialized;
+
     private int currentIndex = 0;
 
-    private void Awake() {
-        anchorLoader = GetComponent<AnchorLoader>();
+    private void Awake()
+    {
+        anchorLoader = GetComponent<EquipmentAnchorLoader>();
+        Debug.Log("SpatialAnchorManager Awake");
+
+        // Ensure controllerTransform is assigned
+        if (controllerTransform == null)
+        {
+            controllerTransform = GameObject.Find("YourControllerName").transform; // Replace "YourControllerName" with the actual name of your controller GameObject
+        }
     }
 
     void Update()
     {
-        if(OVRInput.GetDown(triggerButton, OVRInput.Controller.RTouch)) {
+        if (OVRInput.GetDown(triggerButton, controller))
+        {
+            Debug.Log("Trigger button pressed");
             CreateSpatialAnchor();
         }
-        if(OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch)) {
+        if (OVRInput.GetDown(OVRInput.Button.One, controller))
+        {
+            Debug.Log("Button One pressed");
             SaveLastCreatedAnchor();
         }
-        if(OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
+        if (OVRInput.GetDown(OVRInput.Button.Two, controller))
+        {
+            Debug.Log("Button Two pressed");
             UnsaveLastCreatedAnchor();
         }
-        if(OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch)) {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, controller))
+        {
+            Debug.Log("Primary Hand Trigger pressed");
             UnsaveAllAnchors();
         }
-        if(OVRInput.GetDown(OVRInput.Button.PrimaryThumbstick, OVRInput.Controller.RTouch)) {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryThumbstick, controller))
+        {
+            Debug.Log("Primary Thumbstick pressed");
             LoadSavedAnchors();
         }
-        if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x > 0.5f) {
+
+        if (OVRInput.GetDown(nextButton, controller))
+        {
+            Debug.Log("Next button pressed");
             NextImageAndDescription();
         }
-        if (OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x < -0.5f) {
+        if (OVRInput.GetDown(previousButton, controller))
+        {
+            Debug.Log("Previous button pressed");
             PreviousImageAndDescription();
         }
     }
 
-    public void CreateSpatialAnchor() {
-        OVRSpatialAnchor workingAnchor = Instantiate(anchorPrefab, controllerTransform.position , controllerTransform.rotation);
+    public void CreateSpatialAnchor()
+    {
+        Debug.Log("Creating Spatial Anchor");
 
+        // Log the controller's position and rotation
+        Debug.Log($"Controller Position: {controllerTransform.position}");
+        Debug.Log($"Controller Rotation: {controllerTransform.rotation}");
+
+        // Instantiate the anchor prefab at the controller's position and rotation
+        OVRSpatialAnchor workingAnchor = Instantiate(anchorPrefab, controllerTransform.position, controllerTransform.rotation);
+
+        // Get the canvas and UI elements from the instantiated prefab
         canvas = workingAnchor.gameObject.GetComponentInChildren<Canvas>();
-        uuidText = canvas.gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        savedStatusText = canvas.gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
-        anchorImage = canvas.gameObject.transform.GetChild(2).GetComponent<Image>();
-        descriptionText = canvas.gameObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        if (canvas != null)
+        {
+            nameText = canvas.gameObject.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+            savedStatusText = canvas.gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+            anchorImage = canvas.gameObject.transform.GetChild(0).GetChild(2).GetComponent<Image>();
+
+            Debug.Log("Canvas and UI elements assigned");
+        }
+        else
+        {
+            Debug.LogError("Canvas not found in the anchor prefab");
+        }
 
         StartCoroutine(AnchorCreated(workingAnchor));
     }
 
-    private IEnumerator AnchorCreated(OVRSpatialAnchor workingAnchor) {
-        while (!workingAnchor.Created && !workingAnchor.Localized) {
+    private IEnumerator AnchorCreated(OVRSpatialAnchor workingAnchor)
+    {
+        while (!workingAnchor.Created && !workingAnchor.Localized)
+        {
             yield return new WaitForEndOfFrame();
         }
 
@@ -77,35 +125,44 @@ public class SpatialAnchorManager : MonoBehaviour
         anchors.Add(workingAnchor);
         lastCreatedAnchor = workingAnchor;
 
-        uuidText.text = "Uuid: " + anchorUuid.ToString();
-        savedStatusText.text = "Not saved";
+        nameText.text = "Name";
+        savedStatusText.text = "Not saved"; 
         UpdateImageAndDescription();
     }
 
-    private void SaveLastCreatedAnchor() {
-        lastCreatedAnchor.Save((lastCreatedAnchor, success) => {
-            if (success) {
+    private void SaveLastCreatedAnchor()
+    {
+        lastCreatedAnchor.Save((lastCreatedAnchor, success) =>
+        {
+            if (success)
+            {
                 savedStatusText.text = "Saved";
             }
         });
 
-        SaveUuidToPlayerPrefs(lastCreatedAnchor.Uuid);
+        SaveUuidToPlayerPrefs(lastCreatedAnchor.Uuid, currentIndex);
     }
 
-    void SaveUuidToPlayerPrefs(Guid uuid) {
-        if(!PlayerPrefs.HasKey(NumUuidsPlayerPref)) {
+    void SaveUuidToPlayerPrefs(Guid uuid, int index)
+    {
+        if (!PlayerPrefs.HasKey(NumUuidsPlayerPref))
+        {
             PlayerPrefs.SetInt(NumUuidsPlayerPref, 0);
         }
 
         int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);
         PlayerPrefs.SetString("uuid" + playerNumUuids, uuid.ToString());
+        PlayerPrefs.SetInt("index" + playerNumUuids, index);
         PlayerPrefs.SetInt(NumUuidsPlayerPref, ++playerNumUuids);
 
     }
 
-    private void UnsaveLastCreatedAnchor() {
-        lastCreatedAnchor.Erase((lastCreatedAnchor, success) => {
-            if (success) {
+    private void UnsaveLastCreatedAnchor()
+    {
+        lastCreatedAnchor.Erase((lastCreatedAnchor, success) =>
+        {
+            if (success)
+            {
                 savedStatusText.text = "Not saved";
             }
         });
@@ -113,19 +170,25 @@ public class SpatialAnchorManager : MonoBehaviour
         // Destroy(lastCreatedAnchor.gameObject);
     }
 
-    private void UnsaveAllAnchors() {
-        foreach (var anchor in anchors) {
+    private void UnsaveAllAnchors()
+    {
+        foreach (var anchor in anchors)
+        {
             UnsaveAnchor(anchor);
         }
         anchors.Clear();
         ClearAllUuidsFromPlayerPrefs();
     }
 
-    private void UnsaveAnchor(OVRSpatialAnchor anchor) {
-        anchor.Erase((erasedAnchor, success) => {
-            if (success) {
+    private void UnsaveAnchor(OVRSpatialAnchor anchor)
+    {
+        anchor.Erase((erasedAnchor, success) =>
+        {
+            if (success)
+            {
                 var textComponents = anchor.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
-                if (textComponents.Length > 1) {
+                if (textComponents.Length > 1)
+                {
                     textComponents[1].text = "Not saved";
                 }
             }
@@ -134,35 +197,48 @@ public class SpatialAnchorManager : MonoBehaviour
         // Destroy(anchor.gameObject);
     }
 
-    void ClearAllUuidsFromPlayerPrefs() {
-        if(PlayerPrefs.HasKey(NumUuidsPlayerPref)) {
+    void ClearAllUuidsFromPlayerPrefs()
+    {
+        if (PlayerPrefs.HasKey(NumUuidsPlayerPref))
+        {
             int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);
-            for (int i = 0; i < playerNumUuids; i++) {
+            for (int i = 0; i < playerNumUuids; i++)
+            {
                 PlayerPrefs.DeleteKey("uuid" + i);
+                PlayerPrefs.DeleteKey("index" + i);
             }
             PlayerPrefs.DeleteKey(NumUuidsPlayerPref);
             PlayerPrefs.Save();
         }
     }
 
-    public void LoadSavedAnchors() {
+    public void LoadSavedAnchors()
+    {
         anchorLoader.LoadAnchorsByUuid();
     }
 
-    private void NextImageAndDescription() {
+    private void NextImageAndDescription()
+    {
         currentIndex = (currentIndex + 1) % images.Count;
         UpdateImageAndDescription();
     }
 
-    private void PreviousImageAndDescription() {
+    private void PreviousImageAndDescription()
+    {
         currentIndex = (currentIndex - 1 + images.Count) % images.Count;
         UpdateImageAndDescription();
     }
 
-    private void UpdateImageAndDescription() {
-        if (anchorImage != null && descriptionText != null) {
+    private void UpdateImageAndDescription()
+    {
+        if (anchorImage != null)
+        {
             anchorImage.sprite = images[currentIndex];
-            descriptionText.text = descriptions[currentIndex];
+            nameText.text = descriptions[currentIndex];
+        }
+        else
+        {
+            Debug.LogError("Anchor image or description text is null");
         }
     }
 }

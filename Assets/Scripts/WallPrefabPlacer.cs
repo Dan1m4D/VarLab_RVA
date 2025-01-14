@@ -13,6 +13,10 @@ public class WallPrefabPlacer : MonoBehaviour
     public GameObject previewPrefab;
     private GameObject currentPreview;
     public const string NumUuidsPlayerPref = "numUuids";
+
+    public List<Sprite> images;
+    public List<string> descriptions;
+    
     public OVRInput.Button triggerButton;
     public Transform controllerTransform;
     public OVRInput.Button nextButton;
@@ -22,13 +26,11 @@ public class WallPrefabPlacer : MonoBehaviour
     private TextMeshProUGUI savedStatusText;
     private TextMeshProUGUI descriptionText;
     private Image wallImage;
+    
     public List<OVRSpatialAnchor> anchors = new List<OVRSpatialAnchor>();
     private OVRSpatialAnchor lastCreatedAnchor;
     private AnchorLoader anchorLoader;
     private bool isInitialized;
-
-    public List<Sprite> images;
-    public List<string> descriptions;
 
     private int currentIndex = 0;
 
@@ -38,7 +40,6 @@ public class WallPrefabPlacer : MonoBehaviour
     {
         anchorLoader = GetComponent<AnchorLoader>();
         currentPreview = Instantiate(previewPrefab);
-
     }
 
     void Update()

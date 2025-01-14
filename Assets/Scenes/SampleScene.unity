@@ -784,11 +784,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2519953544252300547, guid: 44cf50d1a2e68b64791a3e3143ccda19, type: 3}
   m_PrefabInstance: {fileID: 463930438}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &65284393 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 927352693264582148, guid: 776a01ac8551e0c43942816b2afd6316, type: 3}
-  m_PrefabInstance: {fileID: 1723987463404681063}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &80599359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2860,17 +2855,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &223974231 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1634504700930334697, guid: 776a01ac8551e0c43942816b2afd6316, type: 3}
-  m_PrefabInstance: {fileID: 1723987463404681063}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65284393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b787dd79ee72a479b543b4728cd5f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &234456968
 GameObject:
   m_ObjectHideFlags: 0
@@ -3858,6 +3842,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1997932595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &302988622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927352691900534048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edae708d52132494d912edbecc8040f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorPrefab: {fileID: 8742057857418836763, guid: ae8fe4849e31fa94c85aa68f61c632fa, type: 3}
 --- !u!1 &311754236
 GameObject:
   m_ObjectHideFlags: 0
@@ -11627,8 +11624,8 @@ Transform:
   - {fileID: 704844483}
   - {fileID: 1280094042}
   - {fileID: 1562047807}
-  - {fileID: 957646425}
   - {fileID: 706693965}
+  - {fileID: 957646425}
   - {fileID: 593219497}
   - {fileID: 1780800784}
   m_Father: {fileID: 2059947062}
@@ -20952,7 +20949,7 @@ PrefabInstance:
     - target: {fileID: 3613868102660323786, guid: c2e00db6d2dfa42ac8d821db8d493a44, type: 3}
       propertyPath: <SceneLoadedEvent>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 223974231}
+      objectReference: {fileID: 90696701242697870}
     - target: {fileID: 3613868102660323786, guid: c2e00db6d2dfa42ac8d821db8d493a44, type: 3}
       propertyPath: <SceneLoadedEvent>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -24902,9 +24899,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1875508173}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1723987463404681063
-PrefabInstance:
+--- !u!114 &90696701242697870
+MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959711434690523491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b787dd79ee72a479b543b4728cd5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorPrefab: {fileID: -7796789560346990337, guid: d4e285546d2d0324e837dcc8193f6308, type: 3}
+  previewPrefab: {fileID: 1898200962263443673, guid: 043a62a8e2b5ea7469041b343a6adbc6, type: 3}
+  images:
+  - {fileID: 21300000, guid: 06ac8ade25882734da7e3e1bc74925c4, type: 3}
+  - {fileID: 21300000, guid: 52a2007f223ec3749899e97c0a3e2750, type: 3}
+  - {fileID: 21300000, guid: 0e2a711615cd1c349b08caea3f3b5388, type: 3}
+  - {fileID: 21300000, guid: f041982487dc64240be63ba4049a93af, type: 3}
+  descriptions:
+  - TUX
+  - OSVALDO
+  - CARALHO
+  - FEATURE REQUEST
+  triggerButton: 2105344
+  controllerTransform: {fileID: 706693965}
+  nextButton: 524288
+  previousButton: 262144
+  anchors: []
+--- !u!4 &486295190230950717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927352691900534048}
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
@@ -25141,7 +25171,8 @@ SceneRoots:
   - {fileID: 984159010}
   - {fileID: 108233735}
   - {fileID: 782628375}
-  - {fileID: 1723987463404681063}
+  - {fileID: 1248481781208211326}
+  - {fileID: 486295190230950717}
   - {fileID: 1828601335}
   - {fileID: 1376155800}
   - {fileID: 223974228}
